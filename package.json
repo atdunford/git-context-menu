@@ -4,6 +4,7 @@
   "description": "Adds git commands context menu items to explorer drop-down menu.",
   "version": "0.0.1",
   "publisher": "atdunford",
+  "repository": "https://github.com/atdunford/git-context-menu",
   "engines": {
     "vscode": "^1.107.0"
   },
@@ -11,7 +12,7 @@
     "Other"
   ],
   "activationEvents": [],
-  "main": "./out/extension.js",
+  "main": "./dist/extension.js",
   "contributes": {
     "submenus": [
       {
@@ -89,22 +90,24 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
-    "lint": "eslint src",
-    "test": "vscode-test"
+    "compile": "webpack --mode development",
+    "watch": "webpack --mode development --watch",
+    "vscode:prepublish": "npm run package",
+    "package": "webpack --mode production --devtool hidden-source-map"
   },
   "devDependencies": {
-    "@types/vscode": "^1.107.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
-    "typescript-eslint": "^8.48.1",
-    "eslint": "^9.39.1",
-    "typescript": "^5.9.3",
+    "@types/vscode": "^1.107.0",
     "@vscode/test-cli": "^0.0.12",
-    "@vscode/test-electron": "^2.5.2"
+    "@vscode/test-electron": "^2.5.2",
+    "esbuild": "^0.27.2",
+    "eslint": "^9.39.1",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.1",
+    "webpack": "^5.104.1",
+    "webpack-cli": "^6.0.1"
   },
   "extensionDependencies": [
     "vscode.git"
