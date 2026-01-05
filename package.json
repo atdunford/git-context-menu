@@ -1,0 +1,112 @@
+{
+  "name": "git-context-menu",
+  "displayName": "git-context-menu",
+  "description": "Adds git commands context menu items to explorer drop-down menu.",
+  "version": "0.0.1",
+  "publisher": "atdunford",
+  "engines": {
+    "vscode": "^1.107.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "submenus": [
+      {
+        "id": "git-context.menu",
+        "label": "Git Operations"
+      }
+    ],
+    "commands": [
+      {
+        "command": "git-context-menu.addFile",
+        "title": "Add File",
+        "icon": "$(add)",
+        "enablement": "!operationInProgress && resourceScheme == file && !explorerResourceIsFolder"
+      },
+      {
+        "command": "git-context-menu.unstageFile",
+        "title": "Unstage File",
+        "icon": "$(remove)",
+        "enablement": "!operationInProgress && resourceScheme == file && !explorerResourceIsFolder"
+      },
+      {
+        "command": "git-context-menu.addFolder",
+        "title": "Add Folder",
+        "icon": "$(add)",
+        "enablement": "!operationInProgress && resourceScheme == file && explorerResourceIsFolder"
+      },
+      {
+        "command": "git-context-menu.unstageFolder",
+        "title": "Unstage Folder",
+        "icon": "$(remove)",
+        "enablement": "!operationInProgress && resourceScheme == file && explorerResourceIsFolder"
+      },
+      {
+        "command": "git-context-menu.showDiff",
+        "title": "Show Diff",
+        "icon": "$(diff)",
+        "enablement": "!operationInProgress && resourceScheme == file && !explorerResourceIsFolder"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "when": "resourceScheme == file && gitOpenRepositoryCount != 0",
+          "submenu": "git-context.menu",
+          "group": "4_scm"
+        }
+      ],
+      "git-context.menu": [
+        {
+          "when": "!explorerResourceIsFolder",
+          "command": "git-context-menu.addFile",
+          "title": "Add or Stage File"
+        },
+        {
+          "when": "!explorerResourceIsFolder",
+          "command": "git-context-menu.unstageFile",
+          "title": "Unstage File"
+        },
+        {
+          "when": "explorerResourceIsFolder",
+          "command": "git-context-menu.addFolder",
+          "title": "Add or Stage Folder"
+        },
+        {
+          "when": "explorerResourceIsFolder",
+          "command": "git-context-menu.unstageFolder",
+          "title": "Unstage Folder"
+        },
+        {
+          "when": "!explorerResourceIsFolder",
+          "command": "git-context-menu.showDiff",
+          "title": "Show Diff"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.107.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "typescript-eslint": "^8.48.1",
+    "eslint": "^9.39.1",
+    "typescript": "^5.9.3",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2"
+  },
+  "extensionDependencies": [
+    "vscode.git"
+  ]
+}
